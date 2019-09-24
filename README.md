@@ -1,6 +1,6 @@
 # DenserFlow
 
-This was part of an assignment that I and @arjunprakash wrote together. The assignment consisted of multiple steps: writing the library, creating and optimising a model (using this code) on given dataset, and writing a report justifying our design decisions and the model itself. The report and model have been left out of this repo, leaving just the basic library part.
+This was part of an assignment that I and @arjun-prakash wrote together. The assignment consisted of multiple steps: writing the library, creating and optimising a model (using this code) on given dataset, and writing a report justifying our design decisions and the model itself. The report and model have been left out of this repo, leaving just the basic library part. Please note @arjun-prakash did write a fair bit, just due to me wiping and re-creating the repository I have wiped the git history.
 
 To setup:
 
