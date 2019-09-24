@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.5.4" />
+<title>DenserFlow.util API documentation</title>
+<meta name="description" content="Defines various utility functions for use with DenserFlow." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.name small{font-weight:normal}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title"><code>DenserFlow.util</code> module</h1>
+</header>
+<section id="section-intro">
+<p>Defines various utility functions for use with DenserFlow.</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Defines various utility functions for use with DenserFlow.
+&#34;&#34;&#34;
+from typing import Tuple
+
+import h5py
+import numpy as np
+from nptyping import Array
+
+from scipy.spatial.distance import pdist, squareform
+from scipy.linalg import eigh
+
+
+def h5_to_np(filename: str, key: str) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    load a h5 file and return a dataset within it as a numpy array.
+    :param filename: name of the h5 file to open
+    :param key: key to lookup the dataset with inside the h5 file.
+    &#34;&#34;&#34;
+    with h5py.File(filename, &#34;r&#34;) as f:
+        return np.copy(f[key])
+
+
+def np_to_h5(filename: str, key: str, data: Array[float]) -&gt; None:
+    &#34;&#34;&#34;
+    Save a numpy array to a h5 file.
+    :param filename: name of the h5 file to write to
+    :param key: key to store the dataset within.
+    &#34;&#34;&#34;
+    with h5py.File(filename, &#34;w&#34;) as f:
+        f.create_dataset(key, data=data)
+
+
+def label_to_one_hot(labels: Array[int], num_classes: int) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    Turn an array of label values into the equivalent set of one-hot encoded vectors.
+    :param labels: array of labels
+    :param num_classes: number of classes within the dataset
+    &#34;&#34;&#34;
+    one_hots = np.zeros((labels.shape[0], num_classes), dtype=np.float64)
+    # fun trick: arange gives us 0....num. samples, so this does nicely
+    one_hots[np.arange(labels.shape[0]), labels] = 1
+    return one_hots
+
+
+def validate_split(
+    x: Array[float], y: Array[float], split: float = 0.1
+) -&gt; Tuple[Array[float], Array[float], Array[float], Array[float]]:
+    &#34;&#34;&#34;
+    Split a dataset into train and validation sets.
+    returns x_train, y_train, x_test, y_test
+    :param x: the array of inputs
+    :param y: the array of target values
+    :param split: the amount to split the dataset by
+    &#34;&#34;&#34;
+    shuffle_indices = np.random.permutation(len(x))
+    x = x[shuffle_indices]
+    y = y[shuffle_indices]
+    train_len = len(x) - int(len(x) * split)
+    return x[:train_len], y[:train_len], x[train_len:], y[train_len:]
+
+
+def StandardScalar(X):
+    &#34;&#34;&#34;
+    Performs z scaling on the data (columnwise)
+    :param: X: input data
+    &#34;&#34;&#34;
+    return (X - np.mean(X)) / (np.std(X) + 1e-8)
+
+
+def MinMaxScalar(X):
+    &#34;&#34;&#34;
+    Performs minmax scaling scaling on the data (columnwise)
+    :param X: input data
+    &#34;&#34;&#34;
+    return (X - np.min(X)) / (np.ptp(X) + 1e-8)
+
+
+def PCA_fit(X, n_components):
+
+    &#34;&#34;&#34;
+    Computes the projection matrix for PCA_fit
+    :param X: normalized training data
+    :param n_components: the dimension of the reduced data
+    Code based off:
+    https://sebastianraschka.com/Articles/2015_pca_in_3_steps.html
+
+    &#34;&#34;&#34;
+    cov_mat = np.cov(X.T)
+    eig_vals, eig_vecs = np.linalg.eig(cov_mat)
+
+    # Make a list of (eigenvalue, eigenvector) tuples
+    eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:, i]) for i in range(len(eig_vals))]
+    # Sort the (eigenvalue, eigenvector) tuples from high to low
+    eig_pairs.sort(key=lambda x: x[0], reverse=True)
+
+    num_features = X.shape[1]
+    proj_mat = eig_pairs[0][1].reshape(num_features, 1)
+    for eig_vec_idx in range(1, n_components):
+        proj_mat = np.hstack(
+            (proj_mat, eig_pairs[eig_vec_idx][1].reshape(num_features, 1))
+        )
+
+    return proj_mat
+
+
+def PCA_predict(X, proj_mat):
+    &#34;&#34;&#34;
+    Projects data onto dimension specified by the projection_matrix
+    :param: X: normalized input data (can be train or test)
+    :param: proj_mat: Projection matrix computed in PCA_fit
+    &#34;&#34;&#34;
+    return X.dot(proj_mat)
+
+
+def KernelPCA_fit(X, gamma, n_components):
+    &#34;&#34;&#34;
+    Computes the projection eigen vectors and eigen values for PCA
+        using the RBF kernel
+    :param X: normalized training data
+    :param gamma: kernel coefficient.
+        The higher the gamma, the more &#39;influence&#39; far datapoints have
+    :param n_components: the dimension of the reduced data
+    Code based off:
+    https://sebastianraschka.com/Articles/2014_kernel_pca.html
+
+    &#34;&#34;&#34;
+    # pairwise euclidian dist
+    eu_dists = pdist(X, &#34;sqeuclidean&#34;)
+
+    # symmetric matrix
+    sym_eu_dists = squareform(eu_dists)
+
+    K = np.exp(-gamma * sym_eu_dists)
+
+    # Centering
+    N = K.shape[0]
+    ones = np.ones((N, N)) / N
+    K = K - ones.dot(K) - K.dot(ones) + ones.dot(K).dot(ones)
+
+    eig_vals, eig_vecs = eigh(K)
+
+    # getting eigenvals as matrix
+    n_eig_vecs = np.column_stack((eig_vecs[:, -i] for i in range(1, n_components + 1)))
+    n_eig_vals = [eig_vals[-i] for i in range(1, n_components + 1)]
+
+    return n_eig_vecs, n_eig_vals
+
+
+def KernelPCA_predict(X_new, X, gamma, n_eig_vecs, n_eig_vals):
+    &#34;&#34;&#34;
+    Projects data onto dimension specified by the projection_matrix
+    :param X_new: test data
+    :param X: training data
+    :param gamma: kernel parameter
+    :param: n_eig_vecs: eigen vectors computed in KernelPCA_fit
+    :param: n_eig_vals: eigen vectors  computed in KernelPCA_fit
+    &#34;&#34;&#34;
+    # compute distance
+    pair_dist = np.array([np.sum((X_new - row) ** 2) for row in X])
+    # construct kernel matrix
+    k = np.exp(-gamma * pair_dist)
+    # project back
+    return k.dot(n_eig_vecs / n_eig_vals)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="DenserFlow.util.KernelPCA_fit"><code class="name flex">
+<span>def <span class="ident">KernelPCA_fit</span></span>(<span>X, gamma, n_components)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Computes the projection eigen vectors and eigen values for PCA
+using the RBF kernel
+:param X: normalized training data
+:param gamma: kernel coefficient.
+The higher the gamma, the more 'influence' far datapoints have
+:param n_components: the dimension of the reduced data
+Code based off:
+<a href="https://sebastianraschka.com/Articles/2014_kernel_pca.html">https://sebastianraschka.com/Articles/2014_kernel_pca.html</a></p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def KernelPCA_fit(X, gamma, n_components):
+    &#34;&#34;&#34;
+    Computes the projection eigen vectors and eigen values for PCA
+        using the RBF kernel
+    :param X: normalized training data
+    :param gamma: kernel coefficient.
+        The higher the gamma, the more &#39;influence&#39; far datapoints have
+    :param n_components: the dimension of the reduced data
+    Code based off:
+    https://sebastianraschka.com/Articles/2014_kernel_pca.html
+
+    &#34;&#34;&#34;
+    # pairwise euclidian dist
+    eu_dists = pdist(X, &#34;sqeuclidean&#34;)
+
+    # symmetric matrix
+    sym_eu_dists = squareform(eu_dists)
+
+    K = np.exp(-gamma * sym_eu_dists)
+
+    # Centering
+    N = K.shape[0]
+    ones = np.ones((N, N)) / N
+    K = K - ones.dot(K) - K.dot(ones) + ones.dot(K).dot(ones)
+
+    eig_vals, eig_vecs = eigh(K)
+
+    # getting eigenvals as matrix
+    n_eig_vecs = np.column_stack((eig_vecs[:, -i] for i in range(1, n_components + 1)))
+    n_eig_vals = [eig_vals[-i] for i in range(1, n_components + 1)]
+
+    return n_eig_vecs, n_eig_vals</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.KernelPCA_predict"><code class="name flex">
+<span>def <span class="ident">KernelPCA_predict</span></span>(<span>X_new, X, gamma, n_eig_vecs, n_eig_vals)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Projects data onto dimension specified by the projection_matrix<br>
+:param X_new: test data<br>
+:param X: training data<br>
+:param gamma: kernel parameter<br>
+:param: n_eig_vecs: eigen vectors computed in KernelPCA_fit<br>
+:param: n_eig_vals: eigen vectors<br>
+computed in KernelPCA_fit</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def KernelPCA_predict(X_new, X, gamma, n_eig_vecs, n_eig_vals):
+    &#34;&#34;&#34;
+    Projects data onto dimension specified by the projection_matrix
+    :param X_new: test data
+    :param X: training data
+    :param gamma: kernel parameter
+    :param: n_eig_vecs: eigen vectors computed in KernelPCA_fit
+    :param: n_eig_vals: eigen vectors  computed in KernelPCA_fit
+    &#34;&#34;&#34;
+    # compute distance
+    pair_dist = np.array([np.sum((X_new - row) ** 2) for row in X])
+    # construct kernel matrix
+    k = np.exp(-gamma * pair_dist)
+    # project back
+    return k.dot(n_eig_vecs / n_eig_vals)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.MinMaxScalar"><code class="name flex">
+<span>def <span class="ident">MinMaxScalar</span></span>(<span>X)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Performs minmax scaling scaling on the data (columnwise)
+:param X: input data</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def MinMaxScalar(X):
+    &#34;&#34;&#34;
+    Performs minmax scaling scaling on the data (columnwise)
+    :param X: input data
+    &#34;&#34;&#34;
+    return (X - np.min(X)) / (np.ptp(X) + 1e-8)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.PCA_fit"><code class="name flex">
+<span>def <span class="ident">PCA_fit</span></span>(<span>X, n_components)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Computes the projection matrix for PCA_fit<br>
+:param X: normalized training data<br>
+:param n_components: the dimension of the reduced data<br>
+Code based off:
+<a href="https://sebastianraschka.com/Articles/2015_pca_in_3_steps.html">https://sebastianraschka.com/Articles/2015_pca_in_3_steps.html</a></p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def PCA_fit(X, n_components):
+
+    &#34;&#34;&#34;
+    Computes the projection matrix for PCA_fit
+    :param X: normalized training data
+    :param n_components: the dimension of the reduced data
+    Code based off:
+    https://sebastianraschka.com/Articles/2015_pca_in_3_steps.html
+
+    &#34;&#34;&#34;
+    cov_mat = np.cov(X.T)
+    eig_vals, eig_vecs = np.linalg.eig(cov_mat)
+
+    # Make a list of (eigenvalue, eigenvector) tuples
+    eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:, i]) for i in range(len(eig_vals))]
+    # Sort the (eigenvalue, eigenvector) tuples from high to low
+    eig_pairs.sort(key=lambda x: x[0], reverse=True)
+
+    num_features = X.shape[1]
+    proj_mat = eig_pairs[0][1].reshape(num_features, 1)
+    for eig_vec_idx in range(1, n_components):
+        proj_mat = np.hstack(
+            (proj_mat, eig_pairs[eig_vec_idx][1].reshape(num_features, 1))
+        )
+
+    return proj_mat</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.PCA_predict"><code class="name flex">
+<span>def <span class="ident">PCA_predict</span></span>(<span>X, proj_mat)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Projects data onto dimension specified by the projection_matrix<br>
+:param: X: normalized input data (can be train or test)<br>
+:param: proj_mat: Projection matrix computed in PCA_fit</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def PCA_predict(X, proj_mat):
+    &#34;&#34;&#34;
+    Projects data onto dimension specified by the projection_matrix
+    :param: X: normalized input data (can be train or test)
+    :param: proj_mat: Projection matrix computed in PCA_fit
+    &#34;&#34;&#34;
+    return X.dot(proj_mat)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.StandardScalar"><code class="name flex">
+<span>def <span class="ident">StandardScalar</span></span>(<span>X)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Performs z scaling on the data (columnwise)<br>
+:param: X: input data</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def StandardScalar(X):
+    &#34;&#34;&#34;
+    Performs z scaling on the data (columnwise)
+    :param: X: input data
+    &#34;&#34;&#34;
+    return (X - np.mean(X)) / (np.std(X) + 1e-8)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.h5_to_np"><code class="name flex">
+<span>def <span class="ident">h5_to_np</span></span>(<span>filename, key)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>load a h5 file and return a dataset within it as a numpy array.<br>
+:param filename: name of the h5 file to open<br>
+:param key: key to lookup the dataset with inside the h5 file.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def h5_to_np(filename: str, key: str) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    load a h5 file and return a dataset within it as a numpy array.
+    :param filename: name of the h5 file to open
+    :param key: key to lookup the dataset with inside the h5 file.
+    &#34;&#34;&#34;
+    with h5py.File(filename, &#34;r&#34;) as f:
+        return np.copy(f[key])</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.label_to_one_hot"><code class="name flex">
+<span>def <span class="ident">label_to_one_hot</span></span>(<span>labels, num_classes)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Turn an array of label values into the equivalent set of one-hot encoded vectors.<br>
+:param labels: array of labels<br>
+:param num_classes: number of classes within the dataset</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def label_to_one_hot(labels: Array[int], num_classes: int) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    Turn an array of label values into the equivalent set of one-hot encoded vectors.
+    :param labels: array of labels
+    :param num_classes: number of classes within the dataset
+    &#34;&#34;&#34;
+    one_hots = np.zeros((labels.shape[0], num_classes), dtype=np.float64)
+    # fun trick: arange gives us 0....num. samples, so this does nicely
+    one_hots[np.arange(labels.shape[0]), labels] = 1
+    return one_hots</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.np_to_h5"><code class="name flex">
+<span>def <span class="ident">np_to_h5</span></span>(<span>filename, key, data)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Save a numpy array to a h5 file.<br>
+:param filename: name of the h5 file to write to<br>
+:param key: key to store the dataset within.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def np_to_h5(filename: str, key: str, data: Array[float]) -&gt; None:
+    &#34;&#34;&#34;
+    Save a numpy array to a h5 file.
+    :param filename: name of the h5 file to write to
+    :param key: key to store the dataset within.
+    &#34;&#34;&#34;
+    with h5py.File(filename, &#34;w&#34;) as f:
+        f.create_dataset(key, data=data)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.util.validate_split"><code class="name flex">
+<span>def <span class="ident">validate_split</span></span>(<span>x, y, split=0.1)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Split a dataset into train and validation sets.<br>
+returns x_train, y_train, x_test, y_test<br>
+:param x: the array of inputs<br>
+:param y: the array of target values<br>
+:param split: the amount to split the dataset by</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def validate_split(
+    x: Array[float], y: Array[float], split: float = 0.1
+) -&gt; Tuple[Array[float], Array[float], Array[float], Array[float]]:
+    &#34;&#34;&#34;
+    Split a dataset into train and validation sets.
+    returns x_train, y_train, x_test, y_test
+    :param x: the array of inputs
+    :param y: the array of target values
+    :param split: the amount to split the dataset by
+    &#34;&#34;&#34;
+    shuffle_indices = np.random.permutation(len(x))
+    x = x[shuffle_indices]
+    y = y[shuffle_indices]
+    train_len = len(x) - int(len(x) * split)
+    return x[:train_len], y[:train_len], x[train_len:], y[train_len:]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="DenserFlow" href="index.html">DenserFlow</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="DenserFlow.util.KernelPCA_fit" href="#DenserFlow.util.KernelPCA_fit">KernelPCA_fit</a></code></li>
+<li><code><a title="DenserFlow.util.KernelPCA_predict" href="#DenserFlow.util.KernelPCA_predict">KernelPCA_predict</a></code></li>
+<li><code><a title="DenserFlow.util.MinMaxScalar" href="#DenserFlow.util.MinMaxScalar">MinMaxScalar</a></code></li>
+<li><code><a title="DenserFlow.util.PCA_fit" href="#DenserFlow.util.PCA_fit">PCA_fit</a></code></li>
+<li><code><a title="DenserFlow.util.PCA_predict" href="#DenserFlow.util.PCA_predict">PCA_predict</a></code></li>
+<li><code><a title="DenserFlow.util.StandardScalar" href="#DenserFlow.util.StandardScalar">StandardScalar</a></code></li>
+<li><code><a title="DenserFlow.util.h5_to_np" href="#DenserFlow.util.h5_to_np">h5_to_np</a></code></li>
+<li><code><a title="DenserFlow.util.label_to_one_hot" href="#DenserFlow.util.label_to_one_hot">label_to_one_hot</a></code></li>
+<li><code><a title="DenserFlow.util.np_to_h5" href="#DenserFlow.util.np_to_h5">np_to_h5</a></code></li>
+<li><code><a title="DenserFlow.util.validate_split" href="#DenserFlow.util.validate_split">validate_split</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

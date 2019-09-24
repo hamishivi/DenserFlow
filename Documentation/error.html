@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.5.4" />
+<title>DenserFlow.error API documentation</title>
+<meta name="description" content="Defines loss functions. Each loss function has one defined function,
+calc_loss, which returns a two values: the loss and the delta. The
+loss is simply …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.name small{font-weight:normal}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title"><code>DenserFlow.error</code> module</h1>
+</header>
+<section id="section-intro">
+<p>Defines loss functions. Each loss function has one defined function,
+calc_loss, which returns a two values: the loss and the delta. The
+loss is simply the evaluation of the loss function given a set of
+predictions and associated labels. Delta is a bit more complicated:
+it is the value of the derivative of the error function with respect
+to the predicted output of the neural network, times the derivative
+of the output of the neural network with respect to the net of the
+output layer. That is, the delta is the derivative of the loss with
+respect to the net of the output layer.</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Defines loss functions. Each loss function has one defined function,
+calc_loss, which returns a two values: the loss and the delta. The
+loss is simply the evaluation of the loss function given a set of
+predictions and associated labels. Delta is a bit more complicated:
+it is the value of the derivative of the error function with respect
+to the predicted output of the neural network, times the derivative
+of the output of the neural network with respect to the net of the
+output layer. That is, the delta is the derivative of the loss with
+respect to the net of the output layer.
+&#34;&#34;&#34;
+from typing import Callable, Tuple
+import numpy as np
+from nptyping import Array
+
+from .activation import Activation, softmax
+
+
+class Loss:
+    &#34;&#34;&#34;
+    The parent class for all loss functions.
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self,
+        y: Array[float],
+        y_hat: Array[float],
+        activation_deriv: Callable[[Array[float]], Array[float]],
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        &#34;&#34;&#34;
+        :param y: a symbolic tensor representing the
+        set of true labels for the input to the neural network.
+        :param y_hat: a symbolic tensor representing the
+        predicted labels of the input to the neural network.
+        :param activation_deriv: the derivative of the activation
+        function of the last layer.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented loss function&#34;)
+
+
+class MSE(Loss):
+    &#34;&#34;&#34;
+    The mean squared error loss
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        # activation_deriv is the last layer&#39;s deriv
+        error = y_hat - y
+        loss = error ** 2
+        # take mean loss across each batch
+        loss = 0.5 * np.mean(loss, axis=0)
+        # calculate the delta of the output layer
+        delta = -error * activation_deriv(y_hat)
+        # return loss and delta
+        return loss, delta
+
+
+class CrossEntropy(Loss):
+    &#34;&#34;&#34;
+    Cross entropy loss, without softmax. For best results,
+    a softmax or logistic activation should be applied on
+    the output layer. The true labels (y) should be one-hot
+    encoded vectors.
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        batch_size = y_hat.shape[0]
+        y_hat += 1e-18  # add a small epsilon to avoid divide by 0s
+        # calculate cross entropy loss, assuming y is one-hot encoded
+        loss = -np.sum(np.multiply(y, np.log(y_hat))) / batch_size
+        # calculate the deltas of the output layer, using matrix multiplication
+        deltas = np.zeros((batch_size, y_hat.shape[1]))
+        idx = 0
+        for answer, predict in zip(y, y_hat):
+            deltas[idx] = (-answer / predict) @ activation_deriv(predict)
+            idx += 1
+        # return loss and delta
+        return loss, deltas
+
+
+class CrossEntropyWithSoftmax(Loss):
+    &#34;&#34;&#34;
+    Cross entropy loss with softmax included. For best results,
+    do not place an activation function on the output layer when
+    using this loss function. The true labels (y) should be one-hot
+    encoded vectors.
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.softmax = softmax()
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        batch_size = y_hat.shape[0]
+        # run softmax on each set of predictions
+        activations = np.apply_along_axis(self.softmax.f, 1, y_hat)
+        # calculate cross entropy loss, assuming y is one-hot encoded
+        loss = -np.sum(np.multiply(y, np.log(activations + 1e-18))) / batch_size
+        # calculate the delta of the output layer, using matrix multiplication
+        delta = activations - y
+        # return loss and delta
+        return loss, delta</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="DenserFlow.error.CrossEntropy"><code class="flex name class">
+<span>class <span class="ident">CrossEntropy</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Cross entropy loss, without softmax. For best results,
+a softmax or logistic activation should be applied on
+the output layer. The true labels (y) should be one-hot
+encoded vectors.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CrossEntropy(Loss):
+    &#34;&#34;&#34;
+    Cross entropy loss, without softmax. For best results,
+    a softmax or logistic activation should be applied on
+    the output layer. The true labels (y) should be one-hot
+    encoded vectors.
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        batch_size = y_hat.shape[0]
+        y_hat += 1e-18  # add a small epsilon to avoid divide by 0s
+        # calculate cross entropy loss, assuming y is one-hot encoded
+        loss = -np.sum(np.multiply(y, np.log(y_hat))) / batch_size
+        # calculate the deltas of the output layer, using matrix multiplication
+        deltas = np.zeros((batch_size, y_hat.shape[1]))
+        idx = 0
+        for answer, predict in zip(y, y_hat):
+            deltas[idx] = (-answer / predict) @ activation_deriv(predict)
+            idx += 1
+        # return loss and delta
+        return loss, deltas</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.error.Loss.calc_loss" href="#DenserFlow.error.Loss.calc_loss">calc_loss</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.error.CrossEntropyWithSoftmax"><code class="flex name class">
+<span>class <span class="ident">CrossEntropyWithSoftmax</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Cross entropy loss with softmax included. For best results,
+do not place an activation function on the output layer when
+using this loss function. The true labels (y) should be one-hot
+encoded vectors.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class CrossEntropyWithSoftmax(Loss):
+    &#34;&#34;&#34;
+    Cross entropy loss with softmax included. For best results,
+    do not place an activation function on the output layer when
+    using this loss function. The true labels (y) should be one-hot
+    encoded vectors.
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.softmax = softmax()
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        batch_size = y_hat.shape[0]
+        # run softmax on each set of predictions
+        activations = np.apply_along_axis(self.softmax.f, 1, y_hat)
+        # calculate cross entropy loss, assuming y is one-hot encoded
+        loss = -np.sum(np.multiply(y, np.log(activations + 1e-18))) / batch_size
+        # calculate the delta of the output layer, using matrix multiplication
+        delta = activations - y
+        # return loss and delta
+        return loss, delta</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="DenserFlow.error.CrossEntropyWithSoftmax.__init__"><code class="name flex">
+<span>def <span class="ident">__init__</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Initialize self.
+See help(type(self)) for accurate signature.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __init__(self):
+    self.softmax = softmax()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.error.Loss.calc_loss" href="#DenserFlow.error.Loss.calc_loss">calc_loss</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.error.Loss"><code class="flex name class">
+<span>class <span class="ident">Loss</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>The parent class for all loss functions.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Loss:
+    &#34;&#34;&#34;
+    The parent class for all loss functions.
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self,
+        y: Array[float],
+        y_hat: Array[float],
+        activation_deriv: Callable[[Array[float]], Array[float]],
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        &#34;&#34;&#34;
+        :param y: a symbolic tensor representing the
+        set of true labels for the input to the neural network.
+        :param y_hat: a symbolic tensor representing the
+        predicted labels of the input to the neural network.
+        :param activation_deriv: the derivative of the activation
+        function of the last layer.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented loss function&#34;)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="DenserFlow.error.MSE" href="#DenserFlow.error.MSE">MSE</a></li>
+<li><a title="DenserFlow.error.CrossEntropy" href="#DenserFlow.error.CrossEntropy">CrossEntropy</a></li>
+<li><a title="DenserFlow.error.CrossEntropyWithSoftmax" href="#DenserFlow.error.CrossEntropyWithSoftmax">CrossEntropyWithSoftmax</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="DenserFlow.error.Loss.calc_loss"><code class="name flex">
+<span>def <span class="ident">calc_loss</span></span>(<span>self, y, y_hat, activation_deriv)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>:param y: a symbolic tensor representing the
+set of true labels for the input to the neural network.<br>
+:param y_hat: a symbolic tensor representing the
+predicted labels of the input to the neural network.<br>
+:param activation_deriv: the derivative of the activation
+function of the last layer.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def calc_loss(
+    self,
+    y: Array[float],
+    y_hat: Array[float],
+    activation_deriv: Callable[[Array[float]], Array[float]],
+) -&gt; Tuple[Array[float], Array[float]]:
+    &#34;&#34;&#34;
+    :param y: a symbolic tensor representing the
+    set of true labels for the input to the neural network.
+    :param y_hat: a symbolic tensor representing the
+    predicted labels of the input to the neural network.
+    :param activation_deriv: the derivative of the activation
+    function of the last layer.
+    &#34;&#34;&#34;
+    raise AttributeError(&#34;Unimplemented loss function&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="DenserFlow.error.MSE"><code class="flex name class">
+<span>class <span class="ident">MSE</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The mean squared error loss</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class MSE(Loss):
+    &#34;&#34;&#34;
+    The mean squared error loss
+    &#34;&#34;&#34;
+
+    def calc_loss(
+        self, y: Array[float], y_hat: Array[float], activation_deriv: Activation
+    ) -&gt; Tuple[Array[float], Array[float]]:
+        # activation_deriv is the last layer&#39;s deriv
+        error = y_hat - y
+        loss = error ** 2
+        # take mean loss across each batch
+        loss = 0.5 * np.mean(loss, axis=0)
+        # calculate the delta of the output layer
+        delta = -error * activation_deriv(y_hat)
+        # return loss and delta
+        return loss, delta</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.error.Loss.calc_loss" href="#DenserFlow.error.Loss.calc_loss">calc_loss</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="DenserFlow" href="index.html">DenserFlow</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="DenserFlow.error.CrossEntropy" href="#DenserFlow.error.CrossEntropy">CrossEntropy</a></code></h4>
+</li>
+<li>
+<h4><code><a title="DenserFlow.error.CrossEntropyWithSoftmax" href="#DenserFlow.error.CrossEntropyWithSoftmax">CrossEntropyWithSoftmax</a></code></h4>
+<ul class="">
+<li><code><a title="DenserFlow.error.CrossEntropyWithSoftmax.__init__" href="#DenserFlow.error.CrossEntropyWithSoftmax.__init__">__init__</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="DenserFlow.error.Loss" href="#DenserFlow.error.Loss">Loss</a></code></h4>
+<ul class="">
+<li><code><a title="DenserFlow.error.Loss.calc_loss" href="#DenserFlow.error.Loss.calc_loss">calc_loss</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="DenserFlow.error.MSE" href="#DenserFlow.error.MSE">MSE</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.5.4" />
+<title>DenserFlow.activation API documentation</title>
+<meta name="description" content="This file defines activation functions for layers of
+the neural network. Each function has its base and first
+derivative defined. Some activation …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.name small{font-weight:normal}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title"><code>DenserFlow.activation</code> module</h1>
+</header>
+<section id="section-intro">
+<p>This file defines activation functions for layers of
+the neural network. Each function has its base and first
+derivative defined. Some activation functions
+have associated hyperparameters, and must be initialised with them.</p>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">&#34;&#34;&#34;
+This file defines activation functions for layers of
+the neural network. Each function has its base and first
+derivative defined. Some activation functions
+have associated hyperparameters, and must be initialised with them.
+&#34;&#34;&#34;
+import numpy as np
+from nptyping import Array
+
+
+class Activation(object):
+    &#34;&#34;&#34;
+    All activation functions inherit from this parent class.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        :param x: a symbolic tensor representing one input to the activation function.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented activation function&#34;)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        :param a: a symbolic tensor representing one input
+        to the derivation of the activation function.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented derivation of activation function&#34;)
+
+
+class linear(Activation):
+    &#34;&#34;&#34;
+    A linear activation function, f(x) = x.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return x
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.zeros_like(a) + 1
+
+
+class tanh(Activation):
+    &#34;&#34;&#34;
+    The tanh activation function, f(x) = tanh(x).
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.tanh(x)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return 1.0 - a ** 2
+
+
+# This util func prevents overflows by catching
+# large values and returning values for them.
+# These are &#39;close enough&#39; in most cases.
+# we then vectorise it for speed.
+def _safe_logistic(x: float) -&gt; float:
+    if x &gt; 500:
+        return 1.0
+    elif x &lt; -500:
+        return 0.0
+    return 1.0 / (1.0 + np.exp(-x))
+
+
+_vec_log = np.vectorize(_safe_logistic)
+
+
+class logistic(Activation):
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        The logistic or sigmoid function, f(x) = logistic(x).
+        &#34;&#34;&#34;
+        return _vec_log(x)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return a * (1 - a)
+
+
+class relu(Activation):
+    &#34;&#34;&#34;
+    The rectified linear unit function. f(x) = max(0, x).
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.where(x &gt; 0, x, 0)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.where(a &gt; 0, 1, 0)
+
+
+class leaky_relu(Activation):
+    &#34;&#34;&#34;
+    The &#39;leaky&#39; rectified linear unit function. f(x) = max(0, x).
+    Takes in the alpha (gradient of line when x &lt; 0) at initialisation.
+    &#34;&#34;&#34;
+
+    def __init__(self, alpha: float = 0.01):
+        self.alpha = alpha
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.where(x &gt; 0, x, x * self.alpha)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.where(a &gt; 0, 1, self.alpha)
+
+
+# utility function, since the limit of the derivative
+# when x -&gt; + infinity is 1, and when x -&gt; -infinity
+# is 0.
+def _safe_gelu_deriv(x: float) -&gt; float:
+    if x &gt; 200:
+        return 1.0
+    elif x &lt; -200:
+        return 0.0
+    exp = np.exp(1.702 * x)
+    exp_plus = exp + 1
+    return exp * (1.702 * x + exp_plus) / ((exp_plus) ** 2)
+
+
+_gelu_deriv_vec = np.vectorize(_safe_gelu_deriv)
+
+
+class gelu(Activation):
+    &#34;&#34;&#34;
+    A simple approximation of the gaussian linear unit, or &#39;gelu&#39;.
+    Approximation from https://arxiv.org/pdf/1606.08415.pdf.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.multiply(x, _vec_log(1.702 * x))
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return _gelu_deriv_vec(a)
+
+
+class softmax(Activation):
+    &#34;&#34;&#34;
+    The softmax activation function. Vectorised derivative from
+    https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        # np.max to normalise a bit
+        # idea from http://cs231n.github.io/linear-classify/#softmax
+        # subtracting the max improves stability.
+        exps = np.exp(x - np.max(x))
+        return exps / np.sum(exps)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        s = a.reshape(-1, 1)
+        return np.diagflat(s) - np.dot(s, s.T)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="DenserFlow.activation.Activation"><code class="flex name class">
+<span>class <span class="ident">Activation</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>All activation functions inherit from this parent class.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class Activation(object):
+    &#34;&#34;&#34;
+    All activation functions inherit from this parent class.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        :param x: a symbolic tensor representing one input to the activation function.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented activation function&#34;)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        :param a: a symbolic tensor representing one input
+        to the derivation of the activation function.
+        &#34;&#34;&#34;
+        raise AttributeError(&#34;Unimplemented derivation of activation function&#34;)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="DenserFlow.activation.linear" href="#DenserFlow.activation.linear">linear</a></li>
+<li><a title="DenserFlow.activation.tanh" href="#DenserFlow.activation.tanh">tanh</a></li>
+<li><a title="DenserFlow.activation.logistic" href="#DenserFlow.activation.logistic">logistic</a></li>
+<li><a title="DenserFlow.activation.relu" href="#DenserFlow.activation.relu">relu</a></li>
+<li><a title="DenserFlow.activation.leaky_relu" href="#DenserFlow.activation.leaky_relu">leaky_relu</a></li>
+<li><a title="DenserFlow.activation.gelu" href="#DenserFlow.activation.gelu">gelu</a></li>
+<li><a title="DenserFlow.activation.softmax" href="#DenserFlow.activation.softmax">softmax</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="DenserFlow.activation.Activation.f"><code class="name flex">
+<span>def <span class="ident">f</span></span>(<span>self, x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>:param x: a symbolic tensor representing one input to the activation function.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def f(self, x: Array[float]) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    :param x: a symbolic tensor representing one input to the activation function.
+    &#34;&#34;&#34;
+    raise AttributeError(&#34;Unimplemented activation function&#34;)</code></pre>
+</details>
+</dd>
+<dt id="DenserFlow.activation.Activation.f_deriv"><code class="name flex">
+<span>def <span class="ident">f_deriv</span></span>(<span>self, a)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>:param a: a symbolic tensor representing one input
+to the derivation of the activation function.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    :param a: a symbolic tensor representing one input
+    to the derivation of the activation function.
+    &#34;&#34;&#34;
+    raise AttributeError(&#34;Unimplemented derivation of activation function&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="DenserFlow.activation.gelu"><code class="flex name class">
+<span>class <span class="ident">gelu</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A simple approximation of the gaussian linear unit, or 'gelu'.
+Approximation from <a href="https://arxiv.org/pdf/1606.08415.pdf.">https://arxiv.org/pdf/1606.08415.pdf.</a></p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class gelu(Activation):
+    &#34;&#34;&#34;
+    A simple approximation of the gaussian linear unit, or &#39;gelu&#39;.
+    Approximation from https://arxiv.org/pdf/1606.08415.pdf.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.multiply(x, _vec_log(1.702 * x))
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return _gelu_deriv_vec(a)</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.leaky_relu"><code class="flex name class">
+<span>class <span class="ident">leaky_relu</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The 'leaky' rectified linear unit function. f(x) = max(0, x).
+Takes in the alpha (gradient of line when x &lt; 0) at initialisation.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class leaky_relu(Activation):
+    &#34;&#34;&#34;
+    The &#39;leaky&#39; rectified linear unit function. f(x) = max(0, x).
+    Takes in the alpha (gradient of line when x &lt; 0) at initialisation.
+    &#34;&#34;&#34;
+
+    def __init__(self, alpha: float = 0.01):
+        self.alpha = alpha
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.where(x &gt; 0, x, x * self.alpha)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.where(a &gt; 0, 1, self.alpha)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="DenserFlow.activation.leaky_relu.__init__"><code class="name flex">
+<span>def <span class="ident">__init__</span></span>(<span>self, alpha=0.01)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Initialize self.
+See help(type(self)) for accurate signature.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def __init__(self, alpha: float = 0.01):
+    self.alpha = alpha</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.linear"><code class="flex name class">
+<span>class <span class="ident">linear</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A linear activation function, f(x) = x.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class linear(Activation):
+    &#34;&#34;&#34;
+    A linear activation function, f(x) = x.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return x
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.zeros_like(a) + 1</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.logistic"><code class="flex name class">
+<span>class <span class="ident">logistic</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>All activation functions inherit from this parent class.</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class logistic(Activation):
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        &#34;&#34;&#34;
+        The logistic or sigmoid function, f(x) = logistic(x).
+        &#34;&#34;&#34;
+        return _vec_log(x)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return a * (1 - a)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="DenserFlow.activation.logistic.f"><code class="name flex">
+<span>def <span class="ident">f</span></span>(<span>self, x)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The logistic or sigmoid function, f(x) = logistic(x).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def f(self, x: Array[float]) -&gt; Array[float]:
+    &#34;&#34;&#34;
+    The logistic or sigmoid function, f(x) = logistic(x).
+    &#34;&#34;&#34;
+    return _vec_log(x)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.relu"><code class="flex name class">
+<span>class <span class="ident">relu</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The rectified linear unit function. f(x) = max(0, x).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class relu(Activation):
+    &#34;&#34;&#34;
+    The rectified linear unit function. f(x) = max(0, x).
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.where(x &gt; 0, x, 0)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return np.where(a &gt; 0, 1, 0)</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.softmax"><code class="flex name class">
+<span>class <span class="ident">softmax</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The softmax activation function. Vectorised derivative from
+<a href="https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function.">https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function.</a></p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class softmax(Activation):
+    &#34;&#34;&#34;
+    The softmax activation function. Vectorised derivative from
+    https://stackoverflow.com/questions/33541930/how-to-implement-the-softmax-derivative-independently-from-any-loss-function.
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        # np.max to normalise a bit
+        # idea from http://cs231n.github.io/linear-classify/#softmax
+        # subtracting the max improves stability.
+        exps = np.exp(x - np.max(x))
+        return exps / np.sum(exps)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        s = a.reshape(-1, 1)
+        return np.diagflat(s) - np.dot(s, s.T)</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="DenserFlow.activation.tanh"><code class="flex name class">
+<span>class <span class="ident">tanh</span></span>
+<span>(</span><span><small>ancestors:</small> <a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The tanh activation function, f(x) = tanh(x).</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">class tanh(Activation):
+    &#34;&#34;&#34;
+    The tanh activation function, f(x) = tanh(x).
+    &#34;&#34;&#34;
+
+    def f(self, x: Array[float]) -&gt; Array[float]:
+        return np.tanh(x)
+
+    def f_deriv(self, a: Array[float]) -&gt; Array[float]:
+        return 1.0 - a ** 2</code></pre>
+</details>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></b></code>:
+<ul class="hlist">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="DenserFlow" href="index.html">DenserFlow</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="DenserFlow.activation.Activation" href="#DenserFlow.activation.Activation">Activation</a></code></h4>
+<ul class="">
+<li><code><a title="DenserFlow.activation.Activation.f" href="#DenserFlow.activation.Activation.f">f</a></code></li>
+<li><code><a title="DenserFlow.activation.Activation.f_deriv" href="#DenserFlow.activation.Activation.f_deriv">f_deriv</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.gelu" href="#DenserFlow.activation.gelu">gelu</a></code></h4>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.leaky_relu" href="#DenserFlow.activation.leaky_relu">leaky_relu</a></code></h4>
+<ul class="">
+<li><code><a title="DenserFlow.activation.leaky_relu.__init__" href="#DenserFlow.activation.leaky_relu.__init__">__init__</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.linear" href="#DenserFlow.activation.linear">linear</a></code></h4>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.logistic" href="#DenserFlow.activation.logistic">logistic</a></code></h4>
+<ul class="">
+<li><code><a title="DenserFlow.activation.logistic.f" href="#DenserFlow.activation.logistic.f">f</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.relu" href="#DenserFlow.activation.relu">relu</a></code></h4>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.softmax" href="#DenserFlow.activation.softmax">softmax</a></code></h4>
+</li>
+<li>
+<h4><code><a title="DenserFlow.activation.tanh" href="#DenserFlow.activation.tanh">tanh</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.5.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
